@@ -12,6 +12,7 @@ class ListItems (models.Model):
     list = models.ForeignKey(List, on_delete=models.CASCADE)
     resturant_id = models.CharField(max_length=30)
     resturant_categories = models.CharField(max_length=500)
+    resturant_name = models.CharField(max_length= 500, default='fish n chips')
     resturant_distance = models.DecimalField(max_digits=17, decimal_places=13)
     resturant_url = models.CharField(max_length=500, null=True)
     resturant_rating = models.DecimalField(max_digits=9, decimal_places=6)
