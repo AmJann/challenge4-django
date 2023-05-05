@@ -7,6 +7,8 @@ from django.contrib.auth import get_user_model
 from .models import *
 from .serializers import *
 
+User = get_user_model()
+
 class LoginView(APIView):
     def post(self, request):
         username = request.data.get('username')
@@ -32,7 +34,7 @@ class RegistrationView(APIView):
         first_name = request.data.get('first_name')
         last_name = request.data.get('last_name')
         user = User.objects.create_user(username=username, password=password, email=email, first_name=first_name, last_name=last_name)
-        return Response(status=status.HTTP_201_CREATED)
+        return Response({'message': 'User is created'},status=status.HTTP_201_CREATED)
 
 class CheckUserLoggedInView(APIView):
     def get(self, request):
@@ -53,9 +55,9 @@ class addUserToGroup(generics.GenericAPIView):
     def post(self,request):
         user_id = request.data.get('user_id')
         group_id = request.data.get('group_id')
-
+        
         group = Groups.objects.get(id=group_id)
-        user = User.objects.get(id = user_id)
+        user = User.objects.get(id = int(user_id))
         position = ''
 
         if not group.user2:

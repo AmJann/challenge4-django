@@ -26,7 +26,7 @@ class createListItems(generics.CreateAPIView):
         group= request.data.get('group_id')
         items = request.data.get('items')
 
-        serializer = ListSerializer(data = {user,group})
+        serializer = ListSerializer(data = {"group": group, "user": user})
 
         if serializer.is_valid():
             list_object = serializer.save()
@@ -42,8 +42,8 @@ class createListItems(generics.CreateAPIView):
                 else:
                     return Response(item_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             
-            else:
-                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class UpdateItemAPIView(generics.UpdateAPIView):

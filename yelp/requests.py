@@ -24,14 +24,15 @@ def getResturants(params):
         resturants = []
         for rest in jsonResponse['businesses']:
             temp = {}
-            temp['id'] = rest['id']
-            temp['name'] = rest['name']
-            temp['image'] = rest['image_url']
-            temp['categories'] = [i['title'] for i in rest['categories']]
-            temp['rating'] = rest['rating']
-            temp['address'] = rest['location']['display_address']
-            temp['phone_number'] = rest['display_phone']
-            temp['distance'] = rest['distance']
+            temp['resturant_id'] = rest['id']
+            temp['resturant_name'] = rest['name']
+            temp['resturant_image'] = rest['image_url']
+            temp['resturant_url'] = rest['url']
+            temp['resturant_categories'] = [i['title'] for i in rest['categories']]
+            temp['resturant_rating'] = rest['rating']
+            temp['resturant_address'] = rest['location']['display_address']
+            temp['resturant_phone_number'] = rest['display_phone']
+            temp['resturant_distance'] = rest['distance']
             resturants.append(temp)
         return resturants
     else:
@@ -46,14 +47,15 @@ def getResturantsbyId(ResturantId):
         response = requests.get(call_url, headers=headers)
         rest = response.json()
         temp = {}
-        temp['id'] = rest['id']
-        temp['name'] = rest['name']
-        temp['image'] = rest['image_url']
-        temp['categories'] = [i['title'] for i in rest['categories']]
-        temp['rating'] = rest['rating']
-        temp['address'] = rest['location']['display_address']
-        temp['phone_number'] = rest['display_phone']
-        temp['distance'] = rest['distance']
+        temp['resturant_id'] = rest['id']
+        temp['resturant_name'] = rest['name']
+        temp['resturant_image'] = rest['image_url']
+        temp['resturant_categories'] = [i['title'] for i in rest['categories']]
+        temp['resturant_rating'] = rest['rating']
+        temp['resturant_url'] = rest['url']
+        temp['resturant_address'] = rest['location']['display_address']
+        temp['resturant_phone_number'] = rest['display_phone']
+        temp['resturant_distance'] = rest['distance']
         resturants.append(temp)
     
     return resturants
