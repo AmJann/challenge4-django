@@ -6,6 +6,7 @@ from rest_framework import generics
 from django.contrib.auth import get_user_model
 from .models import *
 from .serializers import *
+from django.http import JsonResponse
 
 User = get_user_model()
 
@@ -16,7 +17,8 @@ class LoginView(APIView):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return Response(status=status.HTTP_200_OK)
+            res ={'username':username}
+            return JsonResponse(res)
         else:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
 
