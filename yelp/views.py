@@ -9,10 +9,10 @@ class getListItems(generics.ListAPIView):
         user_id = request.query_params.get('user_id', '')
         group_id = request.query_params.get('group_id', '')
 
-        list_object = List.objects.get(user = user_id, group = group_id)
-        list_id = list_object.id
-        if list_object:
-            queryset = ListItems.objects.get(list=list_id)
+        if user_id and group_id:
+            list_object = List.objects.get(user = user_id, group = group_id)
+            list_id = list_object.id
+            queryset = ListItems.objects.filter(list=list_id)
             serializer = ListItemsSerializer(queryset, many=True)
             return Response(serializer.data)
         else:
@@ -31,19 +31,25 @@ class createListItems(generics.CreateAPIView):
         if serializer.is_valid():
             list_object = serializer.save()
             list_id = list_object.id
+            count = 0
 
             for item in items:
                 item['list'] = list_id
+                print("--------------------{}-----------------".format(count))
+                count+=1
+
                 item_serializer = ListItemsSerializer(data=item)
 
                 if item_serializer.is_valid():
                     item_serializer.save()
-                    return Response({'message': 'List and Item created successfully'}, status=status.HTTP_201_CREATED)
                 else:
                     return Response(item_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        return Response({'message': 'List and Item created successfully'}, status=status.HTTP_201_CREATED)
+
 
 
 class UpdateItemAPIView(generics.UpdateAPIView):
