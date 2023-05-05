@@ -3,7 +3,7 @@ from django.db import models
 import uuid
 
 class User(AbstractUser):
-    id = models.IntegerField(primary_key=True, unique=True, auto_created=True)    
+    # id = models.IntegerField(primary_key=True, unique=True, auto_created=True)    
 
     def __str__(self):
         return self.username
