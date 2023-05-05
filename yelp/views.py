@@ -114,7 +114,6 @@ class getSuggestion(generics.GenericAPIView):
         for id in users_list:
             user = User.objects.get(id = id)
             if user and group:
-                print("User: {}, list: {}".format(id,group_id))
                 list_object = List.objects.get(user = id, group = group_id)
                 if list_object:
                     list_id = list_object.id
