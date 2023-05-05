@@ -81,7 +81,7 @@ class CheckUserLoggedInView(APIView):
             return Response(status=status.HTTP_401_UNAUTHORIZED)
 
 
-class createGroup(generics.GenericAPIView):
+class createGroup(generics.CreateAPIView):
     queryset = Groups.objects.all()
     serializer_class = GroupSerializer
 
