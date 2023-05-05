@@ -17,7 +17,7 @@ class GroupSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Groups
-        fields = ['pk','group_name','username1','username2','username3','username4']
+        fields = ['pk','group_name','user1','username1','username2','username3','username4']
 
 class InvitationSerializer(serializers.ModelSerializer):
     class Meta:
