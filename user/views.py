@@ -103,15 +103,16 @@ class getGroup(generics.GenericAPIView):
         response['group_id'] = group_data['pk']
         response['group_name'] = group_data['group_name']
         response['user'] = []
-        response['user'] .append({"user": group_data['username1'], "status": "Group Leader"})
+        response['user'] .append({"user": group_data['username1'], "user_id":group_data['user1'], "status": "Group Leader"})
 
 
         if 'username2' in group_data.keys() :
-            response['user'] .append({"user": group_data['username2'], "status": "Group Member"})
+            response['user'] .append({"user": group_data['username2'], "user_id":group_data['user2'], "status": "Group Member"})
+            
         if 'username3' in group_data.keys():
-            response['user'] .append({"user": group_data['username3'], "status": "Group Member"})
+            response['user'] .append({"user": group_data['username3'], "user_id":group_data['user3'],"status": "Group Member"})
         if 'username4' in group_data.keys():
-            response['user'] .append({"user": group_data['username4'], "status": "Group Member"})
+            response['user'] .append({"user": group_data['username4'], "user_id":group_data['user4'],"status": "Group Member"})
 
         if invites_querset:
             for data in invites_querset:
