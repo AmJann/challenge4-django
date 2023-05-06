@@ -1,0 +1,3 @@
+<h3>Hi,</h6>
+<p> Your friend <strong>{{ username }}</strong> has invited you. Here is a link:</p>
+<a href="{{ my_url }}">Check Now: {{my_url}}</a>

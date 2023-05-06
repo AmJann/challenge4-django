@@ -7,12 +7,23 @@ User = get_user_model()
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'first_name', 'last_name','request_sent', 'invite_code']
+        fields = '__all__'
 
 class GroupSerializer(serializers.ModelSerializer):
+    username1 = serializers.ReadOnlyField(source = "user1.username")
+    username2 = serializers.ReadOnlyField(source = "user2.username")
+    username3 = serializers.ReadOnlyField(source = "user3.username")
+    username4 = serializers.ReadOnlyField(source = "user4.username")
+
     class Meta:
         model = Groups
-        fields = '__all__'
+        fields = ['pk','group_name','user1','username1','username2','username3','username4']
+
+class InvitationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Invitation
+        fields ='__all__'
+
 
 
 
