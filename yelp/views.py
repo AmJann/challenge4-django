@@ -84,7 +84,7 @@ class getResturantsData(views.APIView):
     def post(self,request):
         latitude = request.data.get('latitude')
         longitude = request.data.get('longitude')
-        params = {'latitude':latitude, 'longitude':longitude}
+        params = {'latitude':latitude, 'longitude':longitude, 'limit':50}
         data = getResturants(params)
         if type(data) == list:
             return Response({'data':data}, status=status.HTTP_200_OK)

@@ -11,6 +11,7 @@ from django.core.mail import EmailMessage
 from django.core.mail import EmailMultiAlternatives
 from django.template import Context
 
+
 import os
 import environ
 from dotenv import load_dotenv
@@ -53,16 +54,16 @@ class RegistrationView(APIView):
         email = request.data.get('email')
         first_name = request.data.get('first_name')
         last_name = request.data.get('last_name')
-        group_id = request.data.get('group_id')
         user = User.objects.create_user(username=username, password=password, email=email, first_name=first_name, last_name=last_name)
 
-        if group_id:
-            invites = Invitation.objects.get(email = email)
-            invites.user_joined = True
-            invites.save()
+        invite = Invitation.objects.get(email=email)
+
+        if invite:
+            invite.user_joined = True
+            invite.save()
 
 
-            group = Groups.objects.get(id=group_id)
+            group = Groups.objects.get(id=invite.group_id.id)
 
             if not group.user2:
                 group.user2 = user
@@ -140,7 +141,7 @@ class addUserToGroup(generics.GenericAPIView):
 
 
             username = user[0].first_name +" "+ user[0].last_name
-            url =os.environ['FRONT_URL']+"/regitser/"+group_id
+            url =os.environ['FRONT_URL']+"/regitser"
             plaintext = get_template('email.txt')
             htmly = get_template('email.html')
             d = { 'username': username, 'my_url': url}

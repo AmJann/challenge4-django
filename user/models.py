@@ -25,7 +25,7 @@ class Groups(models.Model):
 
 class Invitation(models.Model):
     group_id = models.ForeignKey(Groups, on_delete=models.CASCADE, related_name="group_id")
-    email = models.EmailField()
+    email = models.EmailField(primary_key=True)
     user_joined = models.BooleanField(null=True, default=False)
 
 
