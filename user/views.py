@@ -118,7 +118,7 @@ class getGroup(generics.GenericAPIView):
             for data in invites_querset:
                 if data.user_joined == False:
                     invitee = data.email
-                    response['user'] .append({"user": invitee, "status": "Invited"})
+                    response['user'] .append({"user": invitee, "user_id":0, "status": "Invited"})
 
         return Response(response)
  
