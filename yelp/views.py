@@ -32,6 +32,10 @@ class createListItems(generics.CreateAPIView):
         items = request.data.get('items')
 
         serializer = ListSerializer(data = {"group": group, "user": user})
+        list_check = List.objects.filter(user = user)
+
+        if list_check:
+            list_check.delete()
 
         if serializer.is_valid():
             list_object = serializer.save()
