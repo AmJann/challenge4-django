@@ -33,7 +33,17 @@ class LoginView(APIView):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            group = Groups.objects.filter(user1 = user)
+            group = Groups.objects.filter(user1=user)
+            for i in range(2,5):
+                if group:
+                    break
+                elif i == 2:
+                    group = Groups.objects.filter(user2 = user)
+                elif i == 3:
+                    group = Groups.objects.filter(user3 = user)
+                elif i == 4:
+                    group = Groups.objects.filter(user4 = user)
+
             groups = []
             for g in group:
                 groups.append(g.id)
