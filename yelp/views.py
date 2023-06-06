@@ -13,10 +13,13 @@ class getListItems(generics.ListAPIView):
 
         if user_id and group_id:
             list_object = List.objects.get(user = user_id, group = group_id)
-            list_id = list_object.id
-            queryset = ListItems.objects.filter(list=list_id)
-            serializer = ListItemsSerializer(queryset, many=True)
-            return Response(serializer.data)
+            if list_object is not None:
+                list_id = list_object.id
+                queryset = ListItems.objects.filter(list=list_id)
+                serializer = ListItemsSerializer(queryset, many=True)
+                return Response(serializer.data)
+            else:
+                Response({'message':'No list found'}, status = status.HTTP_204_NO_CONTENT)
         else:
             return Response({'message':'Invalid Group or user Id', 'user':user_id, 'group':group_id}, status = status.HTTP_400_BAD_REQUEST)
 
@@ -29,6 +32,10 @@ class createListItems(generics.CreateAPIView):
         items = request.data.get('items')
 
         serializer = ListSerializer(data = {"group": group, "user": user})
+        list_check = List.objects.filter(user = user)
+
+        if list_check:
+            list_check.delete()
 
         if serializer.is_valid():
             list_object = serializer.save()
@@ -81,7 +88,7 @@ class getResturantsData(views.APIView):
     def post(self,request):
         latitude = request.data.get('latitude')
         longitude = request.data.get('longitude')
-        params = {'latitude':latitude, 'longitude':longitude}
+        params = {'latitude':latitude, 'longitude':longitude, 'limit':50}
         data = getResturants(params)
         if type(data) == list:
             return Response({'data':data}, status=status.HTTP_200_OK)

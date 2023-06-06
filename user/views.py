@@ -17,7 +17,17 @@ class LoginView(APIView):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            group = Groups.objects.filter(user1 = user)
+            group = Groups.objects.filter(user1=user)
+            for i in range(2,5):
+                if group:
+                    break
+                elif i == 2:
+                    group = Groups.objects.filter(user2 = user)
+                elif i == 3:
+                    group = Groups.objects.filter(user3 = user)
+                elif i == 4:
+                    group = Groups.objects.filter(user4 = user)
+
             groups = []
             for g in group:
                 groups.append(g.id)
@@ -38,16 +48,16 @@ class RegistrationView(APIView):
         email = request.data.get('email')
         first_name = request.data.get('first_name')
         last_name = request.data.get('last_name')
-        group_id = request.data.get('group_id')
         user = User.objects.create_user(username=username, password=password, email=email, first_name=first_name, last_name=last_name)
 
-        if group_id:
-            invites = Invitation.objects.get(email = email)
-            invites.user_joined = True
-            invites.save()
+        invite = Invitation.objects.get(email=email)
+
+        if invite:
+            invite.user_joined = True
+            invite.save()
 
 
-            group = Groups.objects.get(id=group_id)
+            group = Groups.objects.get(id=invite.group_id.id)
 
             if not group.user2:
                 group.user2 = user
@@ -88,21 +98,22 @@ class getGroup(generics.GenericAPIView):
         response['group_id'] = group_data['pk']
         response['group_name'] = group_data['group_name']
         response['user'] = []
-        response['user'] .append({"user": group_data['username1'], "status": "Group Leader"})
+        response['user'] .append({"user": group_data['username1'], "user_id":group_data['user1'], "status": "Group Leader"})
 
 
         if 'username2' in group_data.keys() :
-            response['user'] .append({"user": group_data['username2'], "status": "Group Member"})
+            response['user'] .append({"user": group_data['username2'], "user_id":group_data['user2'], "status": "Group Member"})
+            
         if 'username3' in group_data.keys():
-            response['user'] .append({"user": group_data['username3'], "status": "Group Member"})
+            response['user'] .append({"user": group_data['username3'], "user_id":group_data['user3'],"status": "Group Member"})
         if 'username4' in group_data.keys():
-            response['user'] .append({"user": group_data['username4'], "status": "Group Member"})
+            response['user'] .append({"user": group_data['username4'], "user_id":group_data['user4'],"status": "Group Member"})
 
         if invites_querset:
             for data in invites_querset:
                 if data.user_joined == False:
                     invitee = data.email
-                    response['user'] .append({"user": invitee, "status": "Invited"})
+                    response['user'] .append({"user": invitee, "user_id":0, "status": "Invited"})
 
         return Response(response)
  
@@ -124,7 +135,7 @@ class addUserToGroup(generics.GenericAPIView):
 
 
             username = user[0].first_name +" "+ user[0].last_name
-            url =os.environ['FRONT_URL']+"/regitser/"+group_id
+            url =os.environ['FRONT_URL']+"/regitser"
             plaintext = get_template('email.txt')
             htmly = get_template('email.html')
             d = { 'username': username, 'my_url': url}
