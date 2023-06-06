@@ -14,6 +14,7 @@ from pathlib import Path
 import os
 import environ
 from dotenv import load_dotenv
+import dj_database_url
 
 load_dotenv()
 
@@ -89,14 +90,18 @@ WSGI_APPLICATION = 'yelp_django.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': os.environ['DBNAME'],
+#         'USER': os.environ['DBUSER'],
+#         'PASSWORD': os.environ['DBPASSWORD'],
+#         'HOST': os.environ['DBHOST']
+#     }
+# }
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ['DBNAME'],
-        'USER': os.environ['DBUSER'],
-        'PASSWORD': os.environ['DBPASSWORD'],
-        'HOST': os.environ['DBHOST']
-    }
+'default': dj_database_url.config(conn_max_age=600    )
 }
 
 

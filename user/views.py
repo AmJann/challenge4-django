@@ -17,10 +17,13 @@ class LoginView(APIView):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            res ={'username':username}
-            return JsonResponse(res)
+            group = Groups.objects.filter(user1 = user)
+            groups = []
+            for g in group:
+                groups.append(g.id)
+            return Response({'message':'Logged In','user':{'id':user.id,'username':user.username},"groups_id":groups},status=status.HTTP_200_OK)
         else:
-            return Response(status=status.HTTP_401_UNAUTHORIZED)
+            return Response({"message":"No User Found"},status=status.HTTP_401_UNAUTHORIZED)
 
 class LogoutView(APIView):
     def post(self, request):
