@@ -90,19 +90,19 @@ WSGI_APPLICATION = 'yelp_django.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': os.environ['DBNAME'],
-#         'USER': os.environ['DBUSER'],
-#         'PASSWORD': os.environ['DBPASSWORD'],
-#         'HOST': os.environ['DBHOST']
-#     }
-# }
-
 DATABASES = {
-'default': dj_database_url.config(conn_max_age=600    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ['DBNAME'],
+        'USER': os.environ['DBUSER'],
+        'PASSWORD': os.environ['DBPASSWORD'],
+        'HOST': os.environ['DBHOST']
+    }
 }
+
+# DATABASES = {
+# 'default': dj_database_url.config(default='postgres://click_user:oNWBLX32WSuC6hDt4keqX2KeGuVtbVWv@dpg-cgt2vj02qv2fdeeq1gc0-a.ohio-postgres.render.com/click_comp', conn_max_age=600    )
+# }
 
 
 # Password validation
